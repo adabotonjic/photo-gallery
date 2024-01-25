@@ -4,9 +4,22 @@ import styled from 'styled-components';
 
 const MainContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
   gap: 16px;
   width:100%;
+  min-height:300px;
+  @media screen and (min-width:768px){
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  }
+  @media screen and (min-width:1024px){
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2rem;
+    min-height:400px;
+  }
+  @media screen and (min-width:1200px){
+    grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+    min-height:600px;
+  }
 `;
 
 

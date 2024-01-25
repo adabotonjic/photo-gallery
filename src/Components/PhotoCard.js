@@ -26,7 +26,7 @@ const PhotoItem = styled.div`
   }
 `;
 
-const Image = styled.div`
+const Picture = styled.picture`
 position:relative;
 width:100%;
 height:auto;
@@ -63,17 +63,16 @@ img{
 `;
 
 const Content = styled.div`
-padding: 0rem 1.5rem ;
-
+padding: 0rem 1rem 1rem;
+.photo-title{
+  white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 320px;
+}
 @media screen and (min-width:560px){
   width: 50%;
   padding: 0.5rem 1.5rem 0.5rem 0;
-  .photo-title{
-    white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      max-width: 320px;
-  }
 }
 @media screen and (min-width:768px){
   width: 100%;
@@ -146,28 +145,47 @@ const PhotoCard = ({ photos }) => {
    <>
       {photos.map(photo => (
         <PhotoItem key={photo.data.id}>
-          <Image>
-            <img 
-            src={photo.data.thumbnail} 
-            srcSet={`${photo.data.thumbnail} 768w, 
-            ${photo.data.url} 1024w, 
-            ${photo.data.url} 1200w`}
-              sizes="(max-width: 768px) 740px, 
-                    (max-width: 1024px) 960px, 
-                    1200px"
-            alt={photo.data.title} 
-            width="500"
-            height="300" 
-            loading="lazy"
+          <Picture>
+          <source
+              srcSet={photo.data.thumbnail}
+              media="(max-width: 768px)"
             />
-          </Image>
+            <source
+              media="(min-width:769px)"
+              srcSet={photo.data.url}
+              sizes="50vw"
+            />
+
+            <img 
+              src={photo.data.thumbnail} 
+              alt={photo.data.title} 
+              width={500}
+              height={300}
+              loading="lazy"
+            />
+
+          </Picture>
+          {/*<img 
+           
+           src={photo.data.thumbnail} 
+           srcSet={`${photo.data.thumbnail} 768w, 
+           ${photo.data.url} 1024w, 
+           ${photo.data.url} 1200w`}
+             sizes="(max-width: 768px) 740px, 
+                   (max-width: 1024px) 960px, 
+                   1200px"
+           alt={photo.data.title} 
+           width={500}
+           height={300}
+           loading="lazy"
+           />*/}
           <Content>
             <ContentHeader>
               <div className="date-holder">
-                <img className="icons" src={CalendarIcon} alt="Calendar Icon" /> <span className="fontSmall">{formatDate(photo.data.created_utc)} </span>
+                <img className="icons" src={CalendarIcon} alt="Calendar Icon" width={24} height={24}/> <span className="fontSmall">{formatDate(photo.data.created_utc)} </span>
               </div>
               <div className="comments-holder">
-                <img src={CommentsIcon} alt="Comments Icon" /><span className="fontSmall">{photo.data.num_comments}</span>
+                <img src={CommentsIcon} alt="Comments Icon" width={24} height={24}/><span className="fontSmall">{photo.data.num_comments}</span>
               </div>
             </ContentHeader>
             <h2 className="photo-title">{photo.data.title} </h2>
@@ -182,9 +200,9 @@ const PhotoCard = ({ photos }) => {
 
               <div className="author-holder">
                 <a href={`https://www.reddit.com/user/${photo.data.author}`} target="_blank" rel="noreferrer" title={photo.data.author}>
-                  <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
-                  <path fill="#F9BE00" d="M18 22.082v-1.649c2.203-1.241 4-4.337 4-7.432 0-4.971 0-9-6-9s-6 4.029-6 9c0 3.096 1.797 6.191 4 7.432v1.649c-6.784 0.555-12 3.888-12 7.918h28c0-4.030-5.216-7.364-12-7.918z"></path>
-                  </svg>
+                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width={32} height={32} viewBox="0 0 32 32">
+                <path fill="#F9BE00" d="M18 22.082v-1.649c2.203-1.241 4-4.337 4-7.432 0-4.971 0-9-6-9s-6 4.029-6 9c0 3.096 1.797 6.191 4 7.432v1.649c-6.784 0.555-12 3.888-12 7.918h28c0-4.030-5.216-7.364-12-7.918z" />
+              </svg>
                 </a>
               </div>
             </ContentFooter>
