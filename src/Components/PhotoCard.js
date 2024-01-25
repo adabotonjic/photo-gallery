@@ -64,11 +64,13 @@ img{
 
 const Content = styled.div`
 padding: 0rem 1rem 1rem;
+height: 160px;
 .photo-title{
   white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     max-width: 320px;
+
 }
 @media screen and (min-width:560px){
   width: 50%;
@@ -147,19 +149,23 @@ const PhotoCard = ({ photos }) => {
         <PhotoItem key={photo.data.id}>
           <Picture>
           <source
-              srcSet={photo.data.thumbnail}
               media="(max-width: 768px)"
+              srcSet={photo.data.thumbnail}
+              width={300}
+              height={300}
+              
             />
             <source
               media="(min-width:769px)"
               srcSet={photo.data.url}
-              sizes="50vw"
+              width={300}
+              height={300}
             />
 
             <img 
               src={photo.data.thumbnail} 
               alt={photo.data.title} 
-              width={500}
+              width={300}
               height={300}
               loading="lazy"
             />

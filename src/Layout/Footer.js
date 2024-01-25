@@ -2,16 +2,12 @@ import React from "react";
 
 const Footer = () => (
     
-  <footer className="footer">
-    <div className='container'>
-        <div className="row">
-            <div className="col-12">
-            <hr></hr>
-                <p className="mb-4">© {new Date().getFullYear()} Photo Gallery by Ada</p>
-            </div>
+    <footer className="footer">
+      <div className='container'>
+          <hr></hr>
+          <p className="mb-4 mt-3">© {new Date().getFullYear()} Photo Gallery by Ada</p>
         </div>
-      </div>
-  </footer>
-);
+    </footer>
+  );
 
 export default Footer;
