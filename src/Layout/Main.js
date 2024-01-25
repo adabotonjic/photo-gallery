@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import PhotoCard from "../Components/PhotoCard";
 import styled from 'styled-components';
 
 const MainContainer = styled.div`
@@ -8,21 +9,10 @@ const MainContainer = styled.div`
   width:100%;
 `;
 
-const MediaItem = styled.div`
-  position: relative;
-  overflow: hidden;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  img,
-  video {
-    width: 100%;
-    height: auto;
-  }
-`;
 
 const Spinner = styled.div`
   border: 4px solid rgba(0, 0, 0, 0.1);
-  border-left-color: #09f;
+  border-left-color: var(--color-yellow);
   border-radius: 50%;
   width: 36px;
   height: 36px;
@@ -53,22 +43,9 @@ const fetchPhotos = async (after = '', count = 0) => {
 
 };
 
-const PhotoCard = ({ photos }) => {
-  console.log("PhotoCard photos prop:", photos);
-  return (
-   <>
-      {photos.map(photo => (
-        <MediaItem key={photo.data.id} className="photo-item">
-          <img src={photo.data.url} alt={photo.data.title} />
-          <p>{photo.data.title} </p>
-        </MediaItem>
-      ))}
-    </>
-  );
-};
 
   
-const InfiniteScrollGallery = ({keyword}) => {
+const InfiniteScrollGallery = () => {
   //console.log("InfiniteScrollGallery rendered");
   const [photos, setPhotos] = useState([]);
   const [after, setAfter] = useState('');
