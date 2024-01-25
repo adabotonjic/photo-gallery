@@ -9,11 +9,12 @@ import Footer from './Layout/Footer';
 import './App.css'
 
 const App = () => {
+
   return (
     <>
-      <Header/>   
+      <Header />   
       
-      <Main />
+      <Main  />
     
       <Footer/>      
     
