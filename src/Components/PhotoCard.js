@@ -49,10 +49,7 @@ img{
     transform: translate(-50%, -50%); 
   }
 }
-@media screen and (min-width:600px){
- 
-  height: 260px; 
-}
+
 @media screen and (min-width: 768px){
   width: 100%;
   height: 300px;
@@ -64,13 +61,29 @@ img{
 
 const Content = styled.div`
 padding: 0rem 1rem 1rem;
-height: 160px;
 .photo-title{
   white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     max-width: 320px;
 
+}
+
+.subreddit a{
+  background: var(--color-yellow);
+  padding: 0 0.2rem;
+  line-height: 1.3;
+  display: inline-block;
+  font-weight: var(--fw-bold);
+  margin-top: 0.5rem;
+  text-decoration:none;
+  color: var(--color-primary);
+  border:1px solid var(--color-yellow);
+  transition:all 0.3s;
+  &:hover, &:active{
+    background:white;
+    
+  }
 }
 @media screen and (min-width:560px){
   width: 50%;
@@ -80,7 +93,7 @@ height: 160px;
   width: 100%;
   padding: 0.5rem 1.5rem ;
   position:relative;
-  height:170px;
+
 }
 `;
 
@@ -88,6 +101,7 @@ const ContentHeader = styled.div`
 display:flex;
 align-items:center;
 justify-content:space-between;
+margin-bottom:0.5rem;
 .date-holder,
 .comments-holder{
   display:flex;
@@ -100,6 +114,10 @@ display:flex;
 align-items:center;
 justify-content:space-between;
 .author-holder{
+  svg path{
+    transition: all 0.3s;
+  }
+
   &:hover, &:active{
     svg path{
       fill: #7d7f82;
@@ -117,7 +135,7 @@ const RedditLink = styled.a`
   padding: 0.5rem 1rem;
   background-color: white;
   font-weight: var(--fw-bold);
-  color: black;
+  color: var(--color-primary);
   text-decoration: none;
   border: 2px solid var(--color-yellow);
   transition: all 0.3s;
@@ -194,6 +212,7 @@ const PhotoCard = ({ photos }) => {
                 <img src={CommentsIcon} alt="Comments Icon" width={24} height={24}/><span className="fontSmall">{photo.data.num_comments}</span>
               </div>
             </ContentHeader>
+            <p className="subreddit fontSmall">Subreddit: <a href={`https://www.reddit.com/r/${photo.data.subreddit}`} target="_blank" rel="noreferrer" title={`Subreddit ${photo.data.subreddit}`}>{photo.data.subreddit}</a></p>
             <h2 className="photo-title">{photo.data.title} </h2>
 
             <ContentFooter>

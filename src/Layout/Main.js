@@ -4,10 +4,12 @@ import styled from 'styled-components';
 
 const MainContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: 1.5rem;
+  margin: 2rem 0rem;
   width:100%;
   min-height:300px;
+  
   @media screen and (min-width:768px){
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   }
@@ -21,8 +23,6 @@ const MainContainer = styled.div`
     min-height:600px;
   }
 `;
-
-
 const Spinner = styled.div`
   border: 4px solid rgba(0, 0, 0, 0.1);
   border-left-color: var(--color-yellow);
@@ -42,12 +42,14 @@ const Spinner = styled.div`
   }
 `;
 
-const fetchPhotos = async (after = '', count = 0) => {
-  const url = `https://www.reddit.com/r/dog/top.json?limit=10&after=${after}&count=${count}`;
+
+const fetchPhotos = async (keyword, after = '', count = 0) => {
+  const url = `https://www.reddit.com/r/${keyword}/top.json?limit=10&after=${after}&count=${count}`;
   const response = await fetch(url);
   const data = await response.json();
 
   console.log(url);
+  console.log('keyword:', keyword);
   // Log the status code and rate limit headers
   /*console.log('HTTP Status:', response.status);
   console.log('Rate Limit Remaining:', response.headers.get('x-ratelimit-remaining'));
@@ -56,27 +58,39 @@ const fetchPhotos = async (after = '', count = 0) => {
 
 };
 
-
-  
-const InfiniteScrollGallery = () => {
+const InfiniteScrollGallery = (props) => {
   //console.log("InfiniteScrollGallery rendered");
   const [photos, setPhotos] = useState([]);
   const [after, setAfter] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isPrivate, setIsPrivate] = useState(false);
+  const [wrongkeyword, setWrongkeyword] = useState(false);
   const loader = useRef(null);
 
-  const fetchMorePhotos = async (currentAfter, currentPhotosLength) => {
-    if (isLoading || currentAfter === null) return;
+  const fetchMorePhotos = async ( currentAfter, currentPhotosLength) => {
+    if (isLoading || currentAfter === null || isPrivate) return;
     //console.log("Starting to fetch photos, setting isLoading to true");
     setIsLoading(true);
-
-
   
     console.log("Fetching photos with 'after':", currentAfter, "and count:", currentPhotosLength);
-    const data = await fetchPhotos(currentAfter, currentPhotosLength);
+
+    const data = await fetchPhotos(props.keyword, currentAfter, currentPhotosLength);
 
     console.log("API Response:", data);
   
+    // Check if keyword is private or not accessible
+    if (data.error === 403) {
+      //console.log("This content is private");
+      setIsPrivate(true);
+      setIsLoading(false);
+      return;
+    }
+    if(data.data.dist === 1 && data.data.before == null){
+      setWrongkeyword(true);
+      setIsLoading(false);
+      return;
+    }
+
     if (data && data.data && data.data.children) {
     const newPhotos = data.data.children.filter(item => {
       const url = item.data.url.toLowerCase();
@@ -84,20 +98,38 @@ const InfiniteScrollGallery = () => {
         url.endsWith('.jpg') ||
         url.endsWith('.jpeg') ||
         url.endsWith('.png') ||
-        url.endsWith('.gif')
+        url.endsWith('.gif') ||
+        url.endsWith('.webp') ||
+        url.endsWith('.svg')
       );
     });
   
 
-    console.log("Number of new photos:", newPhotos.length);
-    setPhotos(prev => [...prev, ...newPhotos]);
+    console.log("Number of filtered photos:", newPhotos.length);
+    setPhotos(prev => {
+        // Check if new photos are already included in the current photos
+        const photoUrls = new Set(prev.map(item => item.data.url));
+        return [...prev, ...newPhotos.filter(item => !photoUrls.has(item.data.url))];
+      });
     setAfter(data.data.after);
   }else {
-    console.log("No new photos or same 'after' value");
+    console.log("No new photos or same 'after' value", data.reason);
+    
+    return;
   }
   //console.log("Finished fetching photos, setting isLoading to false");
     setIsLoading(false);
   };
+
+  useEffect(() => {
+    setPhotos([]);
+    setAfter('');
+    setIsPrivate(false);
+    setWrongkeyword(false);
+    setIsLoading(true); // Start loading initially
+
+    fetchMorePhotos('', 0);
+  }, [props.keyword]); 
 
   useEffect(() => {
     //console.log("useEffect triggered");
@@ -125,10 +157,17 @@ const InfiniteScrollGallery = () => {
   //console.log("InfiniteScrollGallery end of function");
   return (
     <div className="container">
-    <MainContainer>
-      <PhotoCard photos={photos} />
-      <div ref={loader}>{isLoading && <Spinner />}</div>
-    </MainContainer>
+     {isPrivate || wrongkeyword ? (
+      <>
+        <p className="h2">This content is private or what you're searching is not a valid keyword.<br></br>Try with different search.</p> 
+        <p className="mb-4"><a href="https://www.reddit.com/subreddits" target="_blank" rel="noreferrer">Here</a> you can find a list of valid keywords.</p>
+        </>
+      ) : (
+        <MainContainer>
+          <PhotoCard photos={photos} />
+          <div ref={loader}>{isLoading && <Spinner />}</div>
+        </MainContainer>
+      )}
     </div>
   );
 };

@@ -46,8 +46,7 @@ html {
   --fw-normal: 300;
 
   /* Colors */
-  --color-primary: #CD112E;
-  --color-secondary: #333E48;
+  --color-primary: #333E48;
   --color-yellow: #F9BE00;
   --bg-lightgrey: #d1d1d1;
 
@@ -84,7 +83,7 @@ body {
   overflow-y: scroll;
   font-weight: var(--fw-normal);
   position: relative;
-  color: var(--color-secondary);
+  color: var(--color-primary);
 }
 
 h1, .h1{
@@ -115,7 +114,7 @@ h2, .h2 {
   font-size: var(--DFS-clamp);
   line-height: 1.5;
   font-weight: var(--fw-bold);
-  margin-top:1rem;
+  margin-top:0.5rem;
   margin-bottom: 1rem;
   text-wrap: balance;
 }
