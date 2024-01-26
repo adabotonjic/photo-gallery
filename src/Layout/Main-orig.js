@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 import PhotoCard from "../Components/PhotoCard";
-import ErrorContent from "../Components/ErrorContent";
 import styled from 'styled-components';
 
 const MainContainer = styled.div`
@@ -45,21 +44,17 @@ const Spinner = styled.div`
 
 
 const fetchPhotos = async (keyword, after = '', count = 0) => {
-  try {
-    const url = `https://www.reddit.com/r/${keyword}/top.json?limit=10&after=${after}&count=${count}`;
-    const response = await fetch(url);
+  const url = `https://www.reddit.com/r/${keyword}/top.json?limit=10&after=${after}&count=${count}`;
+  const response = await fetch(url);
+  const data = await response.json();
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error("Error fetching photos:", error.message);
-    return { error: true, message: error.message };
-  }
-
+  console.log(url);
+  console.log('keyword:', keyword);
+  // Log the status code and rate limit headers
+  /*console.log('HTTP Status:', response.status);
+  console.log('Rate Limit Remaining:', response.headers.get('x-ratelimit-remaining'));
+  console.log('Rate Limit Reset:', response.headers.get('x-ratelimit-reset'));*/
+  return data;
 
 };
 
@@ -68,26 +63,39 @@ const InfiniteScrollGallery = (props) => {
   const [photos, setPhotos] = useState([]);
   const [after, setAfter] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState({ hasError: false, message: '' });
+  const [isPrivate, setIsPrivate] = useState(false);
+  const [wrongKeyword, setWrongKeyword] = useState(false);
   const loader = useRef(null);
 
   const fetchMorePhotos = async ( currentAfter, currentPhotosLength) => {
-    setIsLoading(true);
+
+   
+  
     console.log("Fetching photos with 'after':", currentAfter, "and count:", currentPhotosLength);
 
     const data = await fetchPhotos(props.keyword, currentAfter, currentPhotosLength);
 
-    if (data.error) {
-      console.log("Error fetching data:", data.message);
-      setError({ hasError: true, message: data.message });
+    console.log("API Response:", data);
+    setIsLoading(true);
+    
+    if (isLoading || currentAfter === null ){
+      console.log("fetchMorePhotos called with keyword: ", props.keyword);
+    
+      console.log(props.keyword);
+      return;
+    }
+    // Check if keyword is private or not accessible
+    if (data.error === 403) {
+      //console.log("This content is private");
+      setIsPrivate(true);
       setIsLoading(false);
       return;
     }
-
-    console.log("API Response:", data);
-    
-    
-
+    if(data.data.dist === 1 && data.data.before == null){
+      setWrongKeyword(true);
+      setIsLoading(false);
+      return;
+    }
 
     if (data && data.data && data.data.children) {
     const newPhotos = data.data.children.filter(item => {
@@ -112,6 +120,7 @@ const InfiniteScrollGallery = (props) => {
     setAfter(data.data.after);
   }else {
     console.log("No new photos or same 'after' value", data.reason);
+    
     return;
   }
   //console.log("Finished fetching photos, setting isLoading to false");
@@ -121,8 +130,10 @@ const InfiniteScrollGallery = (props) => {
   useEffect(() => {
     setPhotos([]);
     setAfter('');
+    setIsPrivate(false);
+    setWrongKeyword(false);
     setIsLoading(true); // Start loading initially
-    setError({ hasError: false, message: '' });
+
     fetchMorePhotos('', 0);
   }, [props.keyword]); 
 
@@ -142,6 +153,7 @@ const InfiniteScrollGallery = (props) => {
     }
 
     return () => {
+     // console.log("Cleaning up useEffect");
       if (currentLoader) {
         observer.unobserve(currentLoader);
       }
@@ -149,19 +161,22 @@ const InfiniteScrollGallery = (props) => {
   }, [isLoading, after, fetchMorePhotos]);
 
 
+  //console.log("InfiniteScrollGallery end of function");
   return (
-<div className="container">
-
-  {error.hasError ? (
-    <ErrorContent message={error.message} />
-  ) : (
-    <MainContainer>
-      <PhotoCard photos={photos} />
-      <div ref={loader}>{isLoading && <Spinner />}</div>
-    </MainContainer>
-  )}
-</div>
-
+    <div className="container">
+     {isPrivate || wrongKeyword ? (
+      <>
+        <p className="h2">This content is private or what you're searching is not a valid keyword.<br></br>Try with different search.</p> 
+        <p className="mb-4"><a href="https://www.reddit.com/subreddits" target="_blank" rel="noreferrer">Here</a> you can find a list of valid keywords.</p>
+      
+        </>
+      ) : (
+        <MainContainer>
+          <PhotoCard photos={photos} />
+          <div ref={loader}>{isLoading && <Spinner />}</div>
+        </MainContainer>
+      )}
+    </div>
   );
 };
 
