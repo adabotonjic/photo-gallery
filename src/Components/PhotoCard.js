@@ -189,20 +189,7 @@ const PhotoCard = ({ photos }) => {
             />
 
           </Picture>
-          {/*<img 
-           
-           src={photo.data.thumbnail} 
-           srcSet={`${photo.data.thumbnail} 768w, 
-           ${photo.data.url} 1024w, 
-           ${photo.data.url} 1200w`}
-             sizes="(max-width: 768px) 740px, 
-                   (max-width: 1024px) 960px, 
-                   1200px"
-           alt={photo.data.title} 
-           width={500}
-           height={300}
-           loading="lazy"
-           />*/}
+
           <Content>
             <ContentHeader>
               <div className="date-holder">

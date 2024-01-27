@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import PhotoCard from "../Components/PhotoCard";
+import ErrorContent from "../Components/ErrorContent";
 import styled from 'styled-components';
 
 const MainContainer = styled.div`
@@ -44,17 +45,24 @@ const Spinner = styled.div`
 
 
 const fetchPhotos = async (keyword, after = '', count = 0) => {
-  const url = `https://www.reddit.com/r/${keyword}/top.json?limit=10&after=${after}&count=${count}`;
-  const response = await fetch(url);
-  const data = await response.json();
 
-  console.log(url);
-  console.log('keyword:', keyword);
-  // Log the status code and rate limit headers
-  /*console.log('HTTP Status:', response.status);
-  console.log('Rate Limit Remaining:', response.headers.get('x-ratelimit-remaining'));
-  console.log('Rate Limit Reset:', response.headers.get('x-ratelimit-reset'));*/
-  return data;
+  try {
+    const url = `https://www.reddit.com/r/${keyword}/top.json?limit=20&after=${after}&count=${count}`;
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    console.log(url);
+    console.log('keyword:', keyword);
+    return data;
+    
+  } catch (error) {
+    console.error("Error fetching photos:", error.message);
+    return { error: true, message: error.message };
+  }
 
 };
 
@@ -65,73 +73,72 @@ const InfiniteScrollGallery = (props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isPrivate, setIsPrivate] = useState(false);
   const [wrongKeyword, setWrongKeyword] = useState(false);
+  const [error, setError] = useState({ hasError: false, message: '' });
   const loader = useRef(null);
 
-  const fetchMorePhotos = async ( currentAfter, currentPhotosLength) => {
-
-   
-  
-    console.log("Fetching photos with 'after':", currentAfter, "and count:", currentPhotosLength);
-
-    const data = await fetchPhotos(props.keyword, currentAfter, currentPhotosLength);
-
-    console.log("API Response:", data);
+  const fetchMorePhotos = async (currentAfter, currentPhotosLength) => {
+    if (isLoading || currentAfter === null || isPrivate || wrongKeyword) return;
+    
     setIsLoading(true);
-    
-    if (isLoading || currentAfter === null ){
-      console.log("fetchMorePhotos called with keyword: ", props.keyword);
-    
-      console.log(props.keyword);
-      return;
-    }
-    // Check if keyword is private or not accessible
-    if (data.error === 403) {
-      //console.log("This content is private");
-      setIsPrivate(true);
-      setIsLoading(false);
-      return;
-    }
-    if(data.data.dist === 1 && data.data.before == null){
-      setWrongKeyword(true);
-      setIsLoading(false);
-      return;
-    }
-
-    if (data && data.data && data.data.children) {
-    const newPhotos = data.data.children.filter(item => {
-      const url = item.data.url.toLowerCase();
-      return (
-        url.endsWith('.jpg') ||
-        url.endsWith('.jpeg') ||
-        url.endsWith('.png') ||
-        url.endsWith('.gif') ||
-        url.endsWith('.webp') ||
-        url.endsWith('.svg')
-      );
-    });
+    console.log("Fetching photos with 'after':", currentAfter, "and count:", currentPhotosLength);
   
-
-    console.log("Number of filtered photos:", newPhotos.length);
-    setPhotos(prev => {
-        // Check if new photos are already included in the current photos
-        const photoUrls = new Set(prev.map(item => item.data.url));
-        return [...prev, ...newPhotos.filter(item => !photoUrls.has(item.data.url))];
-      });
-    setAfter(data.data.after);
-  }else {
-    console.log("No new photos or same 'after' value", data.reason);
-    
-    return;
-  }
-  //console.log("Finished fetching photos, setting isLoading to false");
-    setIsLoading(false);
+    try {
+      const data = await fetchPhotos(props.keyword, currentAfter, currentPhotosLength);
+  
+      if (data.error && data.error === 403) {
+        console.log("This content is private or restricted.");
+        setIsPrivate(true);
+        return;
+      }
+  
+      if (data.error) {
+        throw new Error(data.message);
+      }
+  
+      if (data.data.dist === 0) {
+        console.log("No data found for this keyword.");
+        setWrongKeyword(true);
+        return;
+      }
+  
+      if (data && data.data && data.data.children) {
+        const newPhotos = data.data.children.filter(item => {
+          const url = item.data.url.toLowerCase();
+          return (
+            url.endsWith('.jpg') ||
+            url.endsWith('.jpeg') ||
+            url.endsWith('.png') ||
+            url.endsWith('.gif') ||
+            url.endsWith('.webp') ||
+            url.endsWith('.svg')
+          );
+        });
+  
+        console.log("Number of filtered photos:", newPhotos.length);
+        setPhotos(prev => {
+          // Check if new photos are already included in the current photos
+          const photoUrls = new Set(prev.map(item => item.data.url));
+          return [...prev, ...newPhotos.filter(item => !photoUrls.has(item.data.url))];
+        });
+        setAfter(data.data.after);
+      } else {
+        console.log("No new photos or same 'after' value.");
+      }
+    } catch (error) {
+      console.error("Error in fetchMorePhotos:", error.message);
+      setError({ hasError: true, message: error.message });
+    } finally {
+      setIsLoading(false);
+    }
   };
+  
 
   useEffect(() => {
     setPhotos([]);
     setAfter('');
     setIsPrivate(false);
     setWrongKeyword(false);
+    setError({ hasError: false, message: '' });
     setIsLoading(true); // Start loading initially
 
     fetchMorePhotos('', 0);
@@ -160,17 +167,12 @@ const InfiniteScrollGallery = (props) => {
     };
   }, [isLoading, after, fetchMorePhotos]);
 
-
   //console.log("InfiniteScrollGallery end of function");
   return (
     <div className="container">
-     {isPrivate || wrongKeyword ? (
-      <>
-        <p className="h2">This content is private or what you're searching is not a valid keyword.<br></br>Try with different search.</p> 
-        <p className="mb-4"><a href="https://www.reddit.com/subreddits" target="_blank" rel="noreferrer">Here</a> you can find a list of valid keywords.</p>
-      
-        </>
-      ) : (
+     {error.hasError ? (
+      <ErrorContent message={error.message} />
+    ) : (
         <MainContainer>
           <PhotoCard photos={photos} />
           <div ref={loader}>{isLoading && <Spinner />}</div>

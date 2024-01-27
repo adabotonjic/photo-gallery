@@ -8,9 +8,9 @@ const ErrorContent = ({message}) => {
         case message.includes("404"):
             errorContent = (
                 <>
-                    <p>The subreddit you searched for could not be found or is not existing.</p>
+                    <p>The keyword you searched for could not be found or is not existing.</p>
                     <p>
-                        <a href="https://www.reddit.com/subreddits" target="_blank" rel="noreferrer">
+                        <a href="https://www.reddit.com/keywords" target="_blank" rel="noreferrer">
                             Here
                         </a> you can find a list of valid keywords.
                     </p>
@@ -20,10 +20,10 @@ const ErrorContent = ({message}) => {
         case message.includes("403"):
             errorContent = (
                 <>
-                    <p>The subreddit you searched is private.</p>
+                    <p>The keyword you searched is private.</p>
                     <p>Try with different search.</p> 
                     <p>
-                        <a href="https://www.reddit.com/subreddits" target="_blank" rel="noreferrer">
+                        <a href="https://www.reddit.com/keywords" target="_blank" rel="noreferrer">
                             Here
                         </a> you can find a list of valid keywords.
                     </p>
@@ -38,9 +38,9 @@ const ErrorContent = ({message}) => {
         case message ==='Failed to fetch':
                 errorContent = (
                     <>
-                    <p>The subreddit you searched for could not be found or is not existing.</p>
+                    <p>The keyword you searched for could not be found or is not existing.</p>
                     <p>
-                        <a href="https://www.reddit.com/subreddits" target="_blank" rel="noreferrer">
+                        <a href="https://www.reddit.com/keywords" target="_blank" rel="noreferrer">
                             Here
                         </a> you can find a list of valid keywords.
                     </p>

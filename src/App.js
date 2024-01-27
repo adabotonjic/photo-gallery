@@ -3,7 +3,7 @@ import React, { useState }  from 'react';
 import './App.css'
 
 import Header from './Layout/Header';
-import Main from './Layout/Main';
+import Home from './Pages/Home';
 import Footer from './Layout/Footer';
 
 import './App.css'
@@ -32,7 +32,7 @@ const App = () => {
     <div className='container'>
       
     </div>
-    <Main keyword={keyword}/>
+    <Home keyword={keyword}/>
     
       <Footer/>      
     
@@ -40,4 +40,4 @@ const App = () => {
   )
 }
 
-export default App;
+export default App
