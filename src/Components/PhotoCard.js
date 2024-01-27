@@ -86,8 +86,8 @@ const PhotoCard = ({ photo, addToFavorites, removeFromFavorites, isFavorite }) =
           </Content>
           <button onClick={() => isFavorite ? removeFromFavorites(photo.data.id) : addToFavorites(photo)}>
           {isFavorite 
-          ? <img src={RemoveFromFavoritesIcon} alt="Remove from Favorites" />
-          : <img src={AddToFavoritesIcon} alt="Add to Favorites" />}
+          ? <img src={RemoveFromFavoritesIcon} alt="Remove from Favorites" width={28} height={28}/>
+          : <img src={AddToFavoritesIcon} alt="Add to Favorites" width={28} height={28}/>}
         </button>
         </PhotoItem>
 
