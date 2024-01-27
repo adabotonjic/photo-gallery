@@ -7,6 +7,8 @@ import {Content} from '../Components/StyledComponents';
 import {ContentHeader} from '../Components/StyledComponents';
 import {ContentFooter} from '../Components/StyledComponents';
 import {RedditLink} from '../Components/StyledComponents';
+import AddToFavoritesIcon from '../Icons/heart-no.svg';
+import RemoveFromFavoritesIcon from '../Icons/heart.svg';
 
 
 
@@ -20,12 +22,14 @@ function formatDate(timestamp) {
 }
 
 const PhotoCard = ({ photo, addToFavorites, removeFromFavorites, isFavorite }) => {
+
+  const photoItemClass = isFavorite ? "photo-favorite" : "photo";
   console.log("PhotoCard photo:", photo);
   console.log({ addToFavorites, removeFromFavorites });
   return (
    <>
       
-        <PhotoItem>
+        <PhotoItem className={photoItemClass}>
           <Picture>
           <source
               media="(max-width: 768px)"
@@ -81,7 +85,9 @@ const PhotoCard = ({ photo, addToFavorites, removeFromFavorites, isFavorite }) =
             </ContentFooter>
           </Content>
           <button onClick={() => isFavorite ? removeFromFavorites(photo.data.id) : addToFavorites(photo)}>
-          {isFavorite ? 'Remove from Favorites' : 'Add to Favorites'}
+          {isFavorite 
+          ? <img src={RemoveFromFavoritesIcon} alt="Remove from Favorites" />
+          : <img src={AddToFavoritesIcon} alt="Add to Favorites" />}
         </button>
         </PhotoItem>
 

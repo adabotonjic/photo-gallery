@@ -162,13 +162,27 @@ p, .p{
   flex-direction:column;
 
 }
+main{
+  min-height:550px;
+}
+
 aside{
   flex: 0 0 auto;
-    width: 100%;
+  width: 100%;
+  max-width:100%;
+
 }
+aside .inner-content{
+  background: #f2f2f2;
+  border-radius:10px;
+  padding: 0.5rem 1.5rem 2rem;
+  margin-bottom:1.5rem;
+}
+
 .main-content{
   flex: 0 0 auto;
   width:100%;
+  max-width:100%;
 
 }
 
@@ -186,15 +200,36 @@ aside{
   }
   aside{
       width: 25%;
+      
+  }
+  aside .inner-content{
+    position:fixed;
+    width: 100%;
+    max-width: 240px;
+    transition: all 0.3s;
+    top:auto;
+  }
+  aside .inner-content.scrolled{
+    top:2rem;
+    transition: all 0.3s;
   }
   .main-content{
-    width:75%;
+    width:72%;
  
   }
 }
-main{
-  min-height:550px;
+@media screen and (min-width: 1200px) {
+  aside .inner-content{
+    max-width: 280px;
+  }
 }
+@media screen and (min-width: 1400px) {
+  aside .inner-content{
+    max-width: 300px;
+  }
+}
+
+
 
 
 

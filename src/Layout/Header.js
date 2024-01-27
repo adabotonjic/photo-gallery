@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 const MainTitle = styled.div`
@@ -22,12 +21,6 @@ const Header = () => (
             <h1>Photo gallery of Reddit stuff</h1>
            
         </MainTitle>
-        <nav>
-            <Link to="/">Home</Link>
-            <Link to="/favorites">Favorites</Link>
-   
-        </nav>
-        
 
         <hr></hr>
     </div>

@@ -63,7 +63,8 @@ const App = () => {
           inputValue={inputValue}
           addToFavorites={addToFavorites} 
           removeFromFavorites={removeFromFavorites} 
-          favorites={favorites} >
+          favorites={favorites}
+          clearFavorites={clearFavorites} >
             <Routes>
        
             <Route exact path="/" element={
@@ -71,12 +72,14 @@ const App = () => {
                   keyword={keyword} 
                   addToFavorites={addToFavorites} 
                   removeFromFavorites={removeFromFavorites} 
-                  favorites={favorites} />} 
+                  favorites={favorites} 
+                  />} 
             />
             <Route path="/favorites" element={
                 <FavoritesPage 
                 favorites={favorites} 
-                removeFromFavorites={removeFromFavorites} />} 
+                removeFromFavorites={removeFromFavorites}
+                 />} 
             />
            
             </Routes>
