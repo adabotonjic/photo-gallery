@@ -176,20 +176,21 @@ export const PhotoItem = styled.div`
     left:0;
     background:rgba(0,0,0,0);
     transition: all 0.4s;
-}
+    }
   &:hover picture:after{
-
     background:rgba(0,0,0,0.3);
-    
-}
+    }
 
   &.photo-favorite{
     button{
         display:block;
     }
     picture img{
+        position: relative;
         transition: all 0.3s;
-        transform: translate(-50%, -50%) scale(0.8);
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%)  scale(0.8) ;
     }
     
   } 
@@ -197,119 +198,137 @@ export const PhotoItem = styled.div`
     flex-direction:row;
     align-items:center;
     gap:1.5rem;
+    button{
+        left:10px;
+        top:10px;
+      }
   }
   @media screen and (min-width: 768px){
     flex-direction:column;
     gap:0.5rem;
+    button{
+        right:20px;
+        top:20px;
+        left:unset;
+      }
   }
-  @media screen and (min-width: 1024px){
-   
+  @media (hover: none) {
+    button{
+
+        display:block;
+      }
   }
+ 
 `;
 
 export const Picture = styled.picture`
-position:relative;
-width:100%;
-height:auto;
-background: var(--bg-lightgrey);
-transition: all 0.3s;
-img{
-  width: 100%;
-  height: auto;
-}
+    position:relative;
+    width:100%;
+    height: 300px; 
+    overflow: hidden;
+    background: var(--bg-lightgrey);
+    transition: all 0.3s;
+    img{
+        width: 100%;
+        height: auto;
+        top:50%;
+        left:50%;
+        position:absolute;
+        transform: translate(-50%, -50%);
+    }
 
-@media screen and (min-width:560px){
-  width: 50%;  
-  height: 200px; 
-  overflow: hidden;
+    @media screen and (min-width:560px){
+    width: 50%;  
+    height: 200px; 
+    
 
-  img{
+    img{
+        width: 100%;
+        height: auto;
+        top:50%;
+        left:50%;
+        position:absolute;
+        transform: translate(-50%, -50%); 
+    }
+    }
+
+    @media screen and (min-width: 768px){
     width: 100%;
-    height: auto;
-    top:50%;
-    left:50%;
-    position:absolute;
-    transform: translate(-50%, -50%); 
-  }
-}
-
-@media screen and (min-width: 768px){
-  width: 100%;
-  height: 300px;
-}
-@media screen and (min-width: 1200px){
-    height: 250px;
-}
+    height: 300px;
+    }
+    @media screen and (min-width: 1200px){
+        height: 250px;
+    }
 `;
 
 export const Content = styled.div`
-padding: 0rem 1rem 1rem;
-.photo-title{
-  white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 320px;
+    padding: 0rem 1rem 1rem;
+    .photo-title{
+    white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 320px;
 
-}
+    }
 
-.subreddit a{
-  background: var(--color-yellow);
-  padding: 0 0.2rem;
-  line-height: 1.3;
-  display: inline-block;
-  font-weight: var(--fw-bold);
-  margin-top: 0.5rem;
-  text-decoration:none;
-  color: var(--color-primary);
-  border:1px solid var(--color-yellow);
-  transition:all 0.3s;
-  border-radius: 7px;
-  &:hover, &:active{
-    background:white;
-    
-  }
-}
-@media screen and (min-width:560px){
-  width: 50%;
-  padding: 0.5rem 1.5rem 0.5rem 0;
-}
-@media screen and (min-width:768px){
-  width: 100%;
-  padding: 0.5rem 1.5rem ;
-  position:relative;
+    .subreddit a{
+    background: var(--color-yellow);
+    padding: 0 0.2rem;
+    line-height: 1.3;
+    display: inline-block;
+    font-weight: var(--fw-bold);
+    margin-top: 0.5rem;
+    text-decoration:none;
+    color: var(--color-primary);
+    border:1px solid var(--color-yellow);
+    transition:all 0.3s;
+    border-radius: 7px;
+    &:hover, &:active{
+        background:white;
+        
+    }
+    }
+    @media screen and (min-width:560px){
+    width: 50%;
+    padding: 0.5rem 1.5rem 0.5rem 0;
+    }
+    @media screen and (min-width:768px){
+    width: 100%;
+    padding: 0.5rem 1.5rem ;
+    position:relative;
 
-}
+    }
 `;
 
 export const ContentHeader = styled.div`
-display:flex;
-align-items:center;
-justify-content:space-between;
-margin-bottom:0.5rem;
-.date-holder,
-.comments-holder{
-  display:flex;
-  gap:10px;
-  align-items: center;
-}
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:0.5rem;
+
+    .date-holder,
+    .comments-holder{
+    display:flex;
+    gap:10px;
+    align-items: center;
+    }
 `;
 
 export const ContentFooter = styled.div`
-display:flex;
-align-items:center;
-justify-content:space-between;
-.author-holder{
-  svg path{
-    transition: all 0.3s;
-  }
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    .author-holder{
+        svg path{
+            transition: all 0.3s;
+        }
 
-  &:hover, &:active{
-    svg path{
-      fill: #7d7f82;
+        &:hover, &:active{
+            svg path{
+            fill: #7d7f82;
+            }
+        }
     }
-  }
-}
-
 
 `;
 export const RedditLink = styled.a`
