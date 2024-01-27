@@ -1,26 +1,12 @@
 import React from 'react';
-import styled from 'styled-components';
-
-const MainTitle = styled.div`
-    margin-bottom: 1.5rem;
-    span{
-        background: var(--color-yellow);
-        padding: 0 1rem;
-        
-    }
-`;
 
 
 
 const Header = () => (
     
-<header className="header ">
+<header className="header mt-5">
     <div className='container '>
-        
-        <MainTitle>
-            <h1>Photo gallery of Reddit stuff</h1>
-           
-        </MainTitle>
+        <h1>Photo gallery of Reddit stuff</h1>
 
         <hr></hr>
     </div>

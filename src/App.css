@@ -90,8 +90,8 @@ body {
 h1, .h1{
   --DFS-width-min: 360;
   --DFS-width-max: 1400;
-  --DFS-size-min: 47;
-  --DFS-size-max: 70;
+  --DFS-size-min: 30;
+  --DFS-size-max: 55;
   --DFS-width-delta: calc(var(--DFS-width-max) - var(--DFS-width-min));
   --DFS-size-delta: calc(var(--DFS-size-max) - var(--DFS-size-min));
   --DFS-computed-value: calc(var(--DFS-size-min) * 1px + (var(--DFS-size-delta) / var(--DFS-width-delta) * (100vw - var(--DFS-width-min) * 1px)));
@@ -99,7 +99,7 @@ h1, .h1{
   font-size: var(--DFS-clamp);
   line-height: 1.2;
   font-weight: var(--fw-bold);
-  margin-top:2rem;
+  margin-bottom:1rem;
   text-wrap: balance;
 }
 
@@ -239,6 +239,9 @@ aside .inner-content{
 }
 .mt-3{
   margin-top: 1rem;
+}
+.mt-5{
+  margin-top: 3rem;
 }
 
 
