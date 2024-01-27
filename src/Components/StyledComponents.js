@@ -21,6 +21,7 @@ export const Form = styled.form`
         background:white;
         transition: all 0.4s;
         border-radius: 7px;
+        color: var(--color-primary)
         &:hover, &:active{
             background: var(--color-yellow)
         }
