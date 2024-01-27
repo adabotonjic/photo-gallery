@@ -132,6 +132,7 @@ p, .p{
   font-size: var(--DFS-clamp);
   line-height: 1.6;
   text-wrap:balance;
+  margin-bottom: 0.5rem;
 }
 
 .fontSmall{
@@ -151,11 +152,24 @@ p, .p{
 
 .container {
   max-width: 600px;
-
   padding-inline-start: var(--padding-container);
   padding-inline-end: var(--padding-container);
   margin-inline-start: auto;
   margin-inline-end: auto;
+}
+.flexContainer{
+  display:flex;
+  flex-direction:column;
+
+}
+aside{
+  flex: 0 0 auto;
+    width: 100%;
+}
+.main-content{
+  flex: 0 0 auto;
+  width:100%;
+
 }
 
 @media screen and (min-width: 768px) {
@@ -164,7 +178,23 @@ p, .p{
       width:100%;
   }
 }
-
+@media screen and (min-width: 1024px) {
+  .flexContainer{
+    flex-direction:row;
+    gap:2rem;
+    padding-top:1rem;
+  }
+  aside{
+      width: 25%;
+  }
+  .main-content{
+    width:75%;
+ 
+  }
+}
+main{
+  min-height:550px;
+}
 
 
 

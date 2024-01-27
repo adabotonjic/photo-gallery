@@ -1,155 +1,15 @@
 import React from "react";
-import styled from "styled-components";
 import CommentsIcon from "../Icons/insert_comment.svg";
 import CalendarIcon from "../Icons/date_range.svg";
+import {PhotoItem} from '../Components/StyledComponents';
+import {Picture} from '../Components/StyledComponents';
+import {Content} from '../Components/StyledComponents';
+import {ContentHeader} from '../Components/StyledComponents';
+import {ContentFooter} from '../Components/StyledComponents';
+import {RedditLink} from '../Components/StyledComponents';
 
 
-const PhotoItem = styled.div`
-  position: relative;
-  overflow: hidden;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-  display:flex;
-  flex-direction:column;
-  gap:1rem;
-  @media screen and (min-width: 560px){
-    flex-direction:row;
-    align-items:center;
-    gap:1.5rem;
-  }
-  @media screen and (min-width: 768px){
-    flex-direction:column;
-    gap:0.5rem;
-  }
-  @media screen and (min-width: 1024px){
-   
-  }
-`;
 
-const Picture = styled.picture`
-position:relative;
-width:100%;
-height:auto;
-background: var(--bg-lightgrey);
-img{
-  width: 100%;
-  height: auto;
-}
-@media screen and (min-width:560px){
-  width: 50%;  
-  height: 200px; 
-  overflow: hidden;
-
-  img{
-    width: 100%;
-    height: auto;
-    top:50%;
-    left:50%;
-    position:absolute;
-    transform: translate(-50%, -50%); 
-  }
-}
-
-@media screen and (min-width: 768px){
-  width: 100%;
-  height: 300px;
-}
-@media screen and (min-width: 1024px){
-
-}
-`;
-
-const Content = styled.div`
-padding: 0rem 1rem 1rem;
-.photo-title{
-  white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 320px;
-
-}
-
-.subreddit a{
-  background: var(--color-yellow);
-  padding: 0 0.2rem;
-  line-height: 1.3;
-  display: inline-block;
-  font-weight: var(--fw-bold);
-  margin-top: 0.5rem;
-  text-decoration:none;
-  color: var(--color-primary);
-  border:1px solid var(--color-yellow);
-  transition:all 0.3s;
-  &:hover, &:active{
-    background:white;
-    
-  }
-}
-@media screen and (min-width:560px){
-  width: 50%;
-  padding: 0.5rem 1.5rem 0.5rem 0;
-}
-@media screen and (min-width:768px){
-  width: 100%;
-  padding: 0.5rem 1.5rem ;
-  position:relative;
-
-}
-`;
-
-const ContentHeader = styled.div`
-display:flex;
-align-items:center;
-justify-content:space-between;
-margin-bottom:0.5rem;
-.date-holder,
-.comments-holder{
-  display:flex;
-  gap:10px;
-  align-items: center;
-}
-`;
-const ContentFooter = styled.div`
-display:flex;
-align-items:center;
-justify-content:space-between;
-.author-holder{
-  svg path{
-    transition: all 0.3s;
-  }
-
-  &:hover, &:active{
-    svg path{
-      fill: #7d7f82;
-    }
-  }
-}
-
-
-`;
-const RedditLink = styled.a`
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  margin: 0.5rem 0;
-  padding: 0.5rem 1rem;
-  background-color: white;
-  font-weight: var(--fw-bold);
-  color: var(--color-primary);
-  text-decoration: none;
-  border: 2px solid var(--color-yellow);
-  transition: all 0.3s;
-  &:hover, &:active {
-    background-color: var(--color-yellow);
-   
-  }
-  svg{
-    display:inline;
-  }
-  @media screen and (min-width:1024px){
-
-  }
-`;
 function formatDate(timestamp) {
   const date = new Date(timestamp * 1000); // Convert to milliseconds
   const day = date.getDate();
@@ -159,12 +19,13 @@ function formatDate(timestamp) {
   return `${day < 10 ? '0' : ''}${day}/${month < 10 ? '0' : ''}${month}/${year}`;
 }
 
-const PhotoCard = ({ photos }) => {
-  console.log("PhotoCard photos prop:", photos);
+const PhotoCard = ({ photo, addToFavorites, removeFromFavorites, isFavorite }) => {
+  console.log("PhotoCard photo:", photo);
+  console.log({ addToFavorites, removeFromFavorites });
   return (
    <>
-      {photos.map(photo => (
-        <PhotoItem key={photo.data.id}>
+      
+        <PhotoItem>
           <Picture>
           <source
               media="(max-width: 768px)"
@@ -219,9 +80,12 @@ const PhotoCard = ({ photos }) => {
               </div>
             </ContentFooter>
           </Content>
+          <button onClick={() => isFavorite ? removeFromFavorites(photo.data.id) : addToFavorites(photo)}>
+          {isFavorite ? 'Remove from Favorites' : 'Add to Favorites'}
+        </button>
         </PhotoItem>
 
-      ))}
+      
     </>
   );
 };

@@ -1,47 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import PhotoCard from "../Components/PhotoCard";
 import ErrorContent from "../Components/ErrorContent";
-import styled from 'styled-components';
-
-const MainContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
-  gap: 1.5rem;
-  margin: 2rem 0rem;
-  width:100%;
-  min-height:300px;
-  
-  @media screen and (min-width:768px){
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  }
-  @media screen and (min-width:1024px){
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 2rem;
-    min-height:400px;
-  }
-  @media screen and (min-width:1200px){
-    grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
-    min-height:600px;
-  }
-`;
-const Spinner = styled.div`
-  border: 4px solid rgba(0, 0, 0, 0.1);
-  border-left-color: var(--color-yellow);
-  border-radius: 50%;
-  width: 36px;
-  height: 36px;
-  margin: 20px auto;
-  animation: spin 1s ease infinite;
-
-  @keyframes spin {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(360deg);
-    }
-  }
-`;
+import {Spinner} from '../Components/StyledComponents';
+import {MainContainer} from '../Components/StyledComponents';
 
 
 const fetchPhotos = async (keyword, after = '', count = 0) => {
@@ -66,8 +27,7 @@ const fetchPhotos = async (keyword, after = '', count = 0) => {
 
 };
 
-const InfiniteScrollGallery = (props) => {
-  //console.log("InfiniteScrollGallery rendered");
+const Home = ({ keyword, addToFavorites, removeFromFavorites, favorites = [] }) => {
   const [photos, setPhotos] = useState([]);
   const [after, setAfter] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -83,7 +43,7 @@ const InfiniteScrollGallery = (props) => {
     console.log("Fetching photos with 'after':", currentAfter, "and count:", currentPhotosLength);
   
     try {
-      const data = await fetchPhotos(props.keyword, currentAfter, currentPhotosLength);
+      const data = await fetchPhotos(keyword, currentAfter, currentPhotosLength);
   
       if (data.error && data.error === 403) {
         console.log("This content is private or restricted.");
@@ -142,7 +102,7 @@ const InfiniteScrollGallery = (props) => {
     setIsLoading(true); // Start loading initially
 
     fetchMorePhotos('', 0);
-  }, [props.keyword]); 
+  }, [keyword]); 
 
   useEffect(() => {
     //console.log("useEffect triggered");
@@ -160,7 +120,6 @@ const InfiniteScrollGallery = (props) => {
     }
 
     return () => {
-     // console.log("Cleaning up useEffect");
       if (currentLoader) {
         observer.unobserve(currentLoader);
       }
@@ -169,17 +128,25 @@ const InfiniteScrollGallery = (props) => {
 
   //console.log("InfiniteScrollGallery end of function");
   return (
-    <div className="container">
+    <>
      {error.hasError ? (
-      <ErrorContent message={error.message} />
+      <ErrorContent message={error.message} keyword={keyword}/>
     ) : (
         <MainContainer>
-          <PhotoCard photos={photos} />
+          {photos.map(photo => (
+          <PhotoCard 
+            key={photo.data.id} 
+            photo={photo}
+            addToFavorites={addToFavorites} 
+            removeFromFavorites={removeFromFavorites}
+            isFavorite={favorites.some(favPhoto => favPhoto.data.id === photo.data.id)} 
+            />
+          ))}
           <div ref={loader}>{isLoading && <Spinner />}</div>
         </MainContainer>
       )}
-    </div>
+    </>
   );
 };
 
-export default InfiniteScrollGallery;
+export default Home;

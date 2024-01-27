@@ -1,9 +1,11 @@
 
-import React, { useState }  from 'react';
-import './App.css'
+import React, { useState, useEffect }  from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 import Header from './Layout/Header';
+import Main from './Layout/Main';
 import Home from './Pages/Home';
+import FavoritesPage from './Pages/FavoritesPage'
 import Footer from './Layout/Footer';
 
 import './App.css'
@@ -12,6 +14,20 @@ const App = () => {
   /*const keyword = "catpranks";*/
   const [keyword, setkeyword] = useState("funny");
   const [inputValue, setInputValue] = useState("");
+  const [favorites, setFavorites] = useState([]);
+
+
+  const addToFavorites = (photo) => {
+    setFavorites(prev => [...prev, photo]);
+  };
+
+  const removeFromFavorites = (photoId) => {
+    setFavorites(prev => prev.filter(photo => photo.data.id !== photoId));
+  };
+
+  const clearFavorites = () => {
+    setFavorites([]);
+  };
 
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
@@ -22,21 +38,53 @@ const App = () => {
     setkeyword(inputValue);
     setInputValue("");
   };
+
+  useEffect(() => {
+    const savedFavorites = localStorage.getItem('favorites');
+    if (savedFavorites) {
+      setFavorites(JSON.parse(savedFavorites));
+    }
+  }, []);
+  
+  useEffect(() => {
+    localStorage.setItem('favorites', JSON.stringify(favorites));
+  }, [favorites]);
+
   return (
-    <>
-   <Header 
-   keyword={keyword} 
-   handleInputChange={handleInputChange} 
-   handleSubmit={handleSubmit} 
-   inputValue={inputValue} />   
-    <div className='container'>
+    <Router>
+      <Header  />   
+
       
-    </div>
-    <Home keyword={keyword}/>
+      
+        <Main 
+          keyword={keyword} 
+          handleInputChange={handleInputChange} 
+          handleSubmit={handleSubmit} 
+          inputValue={inputValue}
+          addToFavorites={addToFavorites} 
+          removeFromFavorites={removeFromFavorites} 
+          favorites={favorites} >
+            <Routes>
+       
+            <Route exact path="/" element={
+                <Home 
+                  keyword={keyword} 
+                  addToFavorites={addToFavorites} 
+                  removeFromFavorites={removeFromFavorites} 
+                  favorites={favorites} />} 
+            />
+            <Route path="/favorites" element={
+                <FavoritesPage 
+                favorites={favorites} 
+                removeFromFavorites={removeFromFavorites} />} 
+            />
+           
+            </Routes>
+        </Main>
+        
+          <Footer/>      
     
-      <Footer/>      
-    
-    </>
+    </Router>
   )
 }
 
