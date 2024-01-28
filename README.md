@@ -31,23 +31,31 @@ https://photo-gallery-by-ada.vercel.app/
   - App.css
 
   - Components
-
+    - IconSvg 
+        - ArrowRight.js
+        - Heart.js
+        - HomeIcon.js
+        - MobHeart.js
     - AsideFavorites.js
     - AsideHome.js (search logic)
     - ErrorContent.js (displaying different messages based on error message received)
     - PageTop.js (to have a page at the begining when routes)
     - PhotoCard.js 
     - ScrollToTop.js
+    - StyledComponents.js
+
   - Hooks
 
     - usePageClass.js (adding className="page-title" to a body)
-  - Icons 
+
+  - Icons (used as img in PhotoCard)
 
   - Layout
 
     - Header
     - Main (aside + main-content)
     - Footer
+    
   - Pages
 
     - Home (fetch and infiniteScroll logic using Intersection Observer API)
