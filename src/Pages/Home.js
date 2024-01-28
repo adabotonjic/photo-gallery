@@ -17,9 +17,9 @@ const fetchPhotos = async (keyword, after = ''/*, count = 0*/) => {
     }
 
     const data = await response.json();
-    /*console.log('API fetch: ', data);
+    console.log('API fetch: ', data);
     console.log('Url fetched', url)
-    console.log('keyword:', keyword);*/
+    /*console.log('keyword:', keyword);*/
     return data;
     
   } catch (error) {
@@ -37,7 +37,10 @@ const Home = ({ keyword, addToFavorites, removeFromFavorites, favorites = [] }) 
   const loader = useRef(null);
 
   const fetchMorePhotos = async (currentAfter, currentPhotosLength) => {
-    if (isLoading || currentAfter === null ) return;
+    if (isLoading || currentAfter === null ) {
+      setError({ hasError: true, message: '1000' });
+      return;
+    }
     
     setIsLoading(true);
     /*console.log("Fetching photos with 'after':", currentAfter, "and count:", currentPhotosLength);*/
@@ -49,6 +52,7 @@ const Home = ({ keyword, addToFavorites, removeFromFavorites, favorites = [] }) 
         throw new Error(data.message);
       }
       else if (data && data.data && data.data.children) {
+        setError({ hasError: false, message: '' });
         const newPhotos = data.data.children.filter(item => {
           const url = item.data.url.toLowerCase();
           return (
@@ -63,6 +67,7 @@ const Home = ({ keyword, addToFavorites, removeFromFavorites, favorites = [] }) 
             url.endsWith('.jpm') ||
             url.endsWith('.svg')
           );
+          
         });
   
         /*console.log("Number of filtered photos:", newPhotos.length);*/

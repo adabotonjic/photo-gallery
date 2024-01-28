@@ -5,6 +5,18 @@ const ErrorContent = ({message, keyword}) => {
     let errorContent;
 
     switch (true) {
+        case message.includes("1000"):
+            errorContent = (
+                <>
+                    <p>The keyword <strong>{keyword}</strong> you searched has no images.</p>
+                    <p>
+                        <a href="https://www.reddit.com/r/ListOfSubreddits/wiki/listofsubreddits/#wiki_general_content" target="_blank" rel="noreferrer">
+                            Here
+                        </a> you can find a list of valid keywords.
+                    </p>
+                </>
+            );
+            break;
         case message.includes("404"):
             errorContent = (
                 <>
@@ -56,7 +68,6 @@ const ErrorContent = ({message, keyword}) => {
     return (
         <div className="mb-4 mt-3">
         <p className="h2">There was a problem with your search. </p>
-        <p>Error:"{message}"</p>
         <div>{errorContent}</div>
         
         
