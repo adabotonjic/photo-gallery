@@ -23,6 +23,7 @@ const Favorites = ({ favorites, removeFromFavorites }) => {
             photo={photo}
             removeFromFavorites={removeFromFavorites}
             isFavorite={true}
+            pageRef="favorites"
           />
         ))}
         </MainContainer>

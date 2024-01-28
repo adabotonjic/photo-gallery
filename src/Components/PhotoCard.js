@@ -8,7 +8,8 @@ import {ContentHeader} from '../Components/StyledComponents';
 import {ContentFooter} from '../Components/StyledComponents';
 import {RedditLink} from '../Components/StyledComponents';
 import AddToFavoritesIcon from '../Icons/heart-no.svg';
-import RemoveFromFavoritesIcon from '../Icons/heart.svg';
+import RemoveFromFavoritesIcon from '../Icons/heart-yes.svg';
+import Clear from  '../Icons/clear.svg';
 
 
 
@@ -21,9 +22,9 @@ function formatDate(timestamp) {
   return `${day < 10 ? '0' : ''}${day}/${month < 10 ? '0' : ''}${month}/${year}`;
 }
 
-const PhotoCard = ({ photo, addToFavorites, removeFromFavorites, isFavorite }) => {
+const PhotoCard = ({ photo, addToFavorites, removeFromFavorites, isFavorite, pageRef }) => {
 
-  const photoItemClass = isFavorite ? "photo-favorite" : "photo";
+  const photoItemClass = isFavorite && pageRef === 'home' ? "photo-favorite" : "photo";
   console.log("PhotoCard photo:", photo);
   console.log({ addToFavorites, removeFromFavorites });
   return (
@@ -70,7 +71,6 @@ const PhotoCard = ({ photo, addToFavorites, removeFromFavorites, isFavorite }) =
             <ContentFooter>
               <RedditLink href={`https://www.reddit.com${photo.data.permalink}`} target="_blank" >
                 View on Reddit <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
-                <title>external-link</title>
                 <path d="M17 13v6c0 0.276-0.111 0.525-0.293 0.707s-0.431 0.293-0.707 0.293h-11c-0.276 0-0.525-0.111-0.707-0.293s-0.293-0.431-0.293-0.707v-11c0-0.276 0.111-0.525 0.293-0.707s0.431-0.293 0.707-0.293h6c0.552 0 1-0.448 1-1s-0.448-1-1-1h-6c-0.828 0-1.58 0.337-2.121 0.879s-0.879 1.293-0.879 2.121v11c0 0.828 0.337 1.58 0.879 2.121s1.293 0.879 2.121 0.879h11c0.828 0 1.58-0.337 2.121-0.879s0.879-1.293 0.879-2.121v-6c0-0.552-0.448-1-1-1s-1 0.448-1 1zM10.707 14.707l9.293-9.293v3.586c0 0.552 0.448 1 1 1s1-0.448 1-1v-6c0-0.136-0.027-0.265-0.076-0.383s-0.121-0.228-0.216-0.323c-0.001-0.001-0.001-0.001-0.002-0.002-0.092-0.092-0.202-0.166-0.323-0.216-0.118-0.049-0.247-0.076-0.383-0.076h-6c-0.552 0-1 0.448-1 1s0.448 1 1 1h3.586l-9.293 9.293c-0.391 0.391-0.391 1.024 0 1.414s1.024 0.391 1.414 0z"></path>
                 </svg>
               </RedditLink>
@@ -85,9 +85,12 @@ const PhotoCard = ({ photo, addToFavorites, removeFromFavorites, isFavorite }) =
             </ContentFooter>
           </Content>
           <button onClick={() => isFavorite ? removeFromFavorites(photo.data.id) : addToFavorites(photo)}>
-          {isFavorite 
-          ? <img src={RemoveFromFavoritesIcon} alt="Remove from Favorites" width={28} height={28}/>
-          : <img src={AddToFavoritesIcon} alt="Add to Favorites" width={28} height={28}/>}
+          {isFavorite
+            ? pageRef === 'favorites' 
+                ? <img src={Clear} alt="Remove from Favorites" width={28} height={28}/>
+                : <img src={RemoveFromFavoritesIcon} alt="Remove from Favorites" width={28} height={28}/>
+            : <img src={AddToFavoritesIcon} alt="Add to Favorites" width={28} height={28}/>
+          }
         </button>
         </PhotoItem>
 

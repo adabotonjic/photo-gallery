@@ -3,38 +3,74 @@ import { Link } from 'react-router-dom';
 
 /* Main */
 export const Form = styled.form`
-    margin-bottom:2rem;
+    margin-bottom:1.5rem;
     display:flex;
-    
+    flex-direction: column;
+    flex-wrap: wrap;
     gap:0.5rem;
-    input{
-        height:45px;
-        line-height:45px;
-        padding:5px 10px;
-        border-radius: 7px;
-        border: 1px solid var(--color-primary);
+    max-width:250px;
+
+    label{
+        flex-basis: 100%;
     }
-    button{
-        cursor:pointer;
-        padding:5px 10px;
-        border: 2px solid var(--color-yellow);
-        background:white;
-        transition: all 0.4s;
-        border-radius: 7px;
-        color: var(--color-primary);
-        -webkit-appearance: none;
-        &:hover, &:active{
-            background: var(--color-yellow)
+
+    .input-btn{
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        input{
+            height:45px;
+            line-height:45px;
+            padding:5px 10px;
+            border-radius: 7px;
+            border: 1px solid var(--color-primary);
+        }
+        button{
+            cursor:pointer;
+            padding:5px 10px;
+            border: 2px solid var(--color-yellow);
+            background:white;
+            transition: all 0.4s;
+            border-radius: 7px;
+            color: var(--color-primary);
+            -webkit-appearance: none;
+            appearance: none;
+            height: 45px;
+            width: 120px;
+            &:hover, &:active{
+                background: var(--color-yellow)
+            }
+        }
+    }
+    @media screen and (min-width:500px){
+        
+        max-width:350px;
+        .input-btn{
+            flex-direction: row;
+           
+            input{
+                width:70%;
+            }
+            button{
+                width: 30%;
+            }
         }
     }
     @media screen and (min-width:1024px){
-        flex-direction: column;
-        gap:0.5rem;
+        
+     
+        .input-btn{
+            flex-direction: column;
+            input{
+            width:100%;
+        }
         button{
             height: 45px;
             width: 50%;
 
         }
+        }
+      
     }
 `;
 
@@ -47,17 +83,16 @@ export const ButtonClear = styled.button`
 `;
 
 export const NavLink = styled(Link)`
-    padding:0.5rem;
+    padding:0.7rem 0.5rem;
     background:transparent;
     cursor:pointer;
     display: flex;
     gap: 5px;
     align-items:center;
-    margin-top:0.5rem;
-    color: #800; 
+    color: var(--color-red); 
     font-weight: bold;
     text-decoration:none;
-    border-bottom:1px solid #800;
+    border-bottom:1px solid var(--color-red);
     position:relative;
     span{
         position:relative;
@@ -75,7 +110,7 @@ export const NavLink = styled(Link)`
 
     &:after{
         content:'';
-        background: #800;
+        background: var(--color-red);
         height:0;
         width:100%;
         display:block;
@@ -98,16 +133,45 @@ export const NavLink = styled(Link)`
 
     } 
 `;
+export const MobFavLink = styled(Link)`
+    position:fixed;
+    top:20px;
+    right: 20px;
+    width:50px;
+    height:50px;
+    background: rgba(209, 209, 209, 0.5);
+    border:2px solid var(--color-red);
+    border-radius:50%;
+    z-index:20;
+    display: none;
 
-
-
-
+    &.scrolled{
+        display: block;
+    }
+    svg{
+        position:absolute;
+        top:50%;
+        left:50%;
+        transform:translate(-50%, -50%);
+    }
+    span{
+        color:white;
+        font-weight:bold;
+        position:absolute;
+        top:50%;
+        left:50%;
+        transform:translate(-50%, -50%);
+    }
+    @media screen and (min-width:1024px){
+        display:none;
+    }
+`;
 
 
 /* Home */
 export const MainContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
   gap: 1.5rem;
   width:100%;
   min-height:300px;
@@ -157,12 +221,20 @@ export const PhotoItem = styled.div`
   gap:1rem;
   transition: all 0.3s;
   button{
-    position:absolute;
-    top:20px;
-    right:20px;
-    border:0;
-    background:transparent;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 40px;
+    height: 40px;
+    border: 0;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 50%;
     display:none;
+    img{
+        margin:0 auto;
+        width:22px;
+        height:22px;
+    }
   }
 
   &:hover button{
@@ -196,6 +268,11 @@ export const PhotoItem = styled.div`
     }
     
   } 
+  @media (hover: none) {
+    button{
+        display:block;
+      }
+  }
   @media screen and (min-width: 560px){
     flex-direction:row;
     align-items:center;
@@ -209,17 +286,10 @@ export const PhotoItem = styled.div`
     flex-direction:column;
     gap:0.5rem;
     button{
-        right:20px;
-        top:20px;
         left:unset;
       }
   }
-  @media (hover: none) {
-    button{
-
-        display:block;
-      }
-  }
+  
  
 `;
 
@@ -355,5 +425,44 @@ export const RedditLink = styled.a`
   }
   @media screen and (min-width:1024px){
 
+  }
+`;
+
+/* ScrollToTop */
+export const ScrollToTopButton = styled.button`
+    display: block;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 99;
+    border: 2px solid var(--color-primary);;
+    outline: none;
+    background-color: var(--bg-lightgrey);
+    padding: 12px 14px;
+    border-radius: 30px;
+    opacity: 0;
+    transition: opacity .3s ease;
+    pointer-events: none;
+
+    svg {
+        transform: rotate(180deg);
+        height: 20px;
+    }
+    
+    &:hover {
+        background-color: white;
+        opacity:0.8;
+    }
+    
+    &.scrolled {
+        pointer-events: auto;
+        opacity: .8;
+        transition: opacity .3s ease;
+        cursor: pointer;
+    }
+    
+    @media screen and (min-width:1024px) {
+        display:none;
+        
   }
 `;

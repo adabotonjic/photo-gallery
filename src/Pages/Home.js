@@ -27,7 +27,7 @@ const fetchPhotos = async (keyword, after = '', count = 0) => {
 
 };
 
-const Home = ({ keyword, addToFavorites, removeFromFavorites, favorites = [] }) => {
+const Home = ({ keyword, addToFavorites, removeFromFavorites, favorites = [] , pageRef}) => {
   const [photos, setPhotos] = useState([]);
   const [after, setAfter] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -126,7 +126,6 @@ const Home = ({ keyword, addToFavorites, removeFromFavorites, favorites = [] }) 
     };
   }, [isLoading, after, fetchMorePhotos]);
 
-  //console.log("InfiniteScrollGallery end of function");
   return (
     <>
      {error.hasError ? (
@@ -140,6 +139,7 @@ const Home = ({ keyword, addToFavorites, removeFromFavorites, favorites = [] }) 
             addToFavorites={addToFavorites} 
             removeFromFavorites={removeFromFavorites}
             isFavorite={favorites.some(favPhoto => favPhoto.data.id === photo.data.id)} 
+            pageRef= "home"
             />
           ))}
           <div ref={loader}>{isLoading && <Spinner />}</div>

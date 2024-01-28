@@ -1,70 +1,132 @@
-# Getting Started with Create React App
+# Photo Gallery App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project was create in React
 
-## Available Scripts
+```
+npx create-react-app photo-gallery
+cd photo-gallery
+npm start
+```
+It fetches the images from Reddit subreddits.
 
-In the project directory, you can run:
+Here you can check out the result:
 
-### `npm start`
+https://photo-gallery-by-ada.vercel.app/
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Functionalities 
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### - Infinite scroll
+### - Search for subreddits
+### - Selecting/deselecting images as favorites
+### - Favorites page to see o remove favorites images
 
-### `npm test`
+## Structure of the project
+`public`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+`src`
+  - Components
 
-### `npm run build`
+    - AsideFavorites.js
+    - AsideHome.js (search logic)
+    - ErrorContent.js (displaying different messages based on error message received)
+    - PageTop.js (to have a page at the begining when routes)
+    - PhotoCard.js 
+    - ScrollToTop.js
+  - Hooks
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+    - usePageClass.js (adding className="page-title" to a body)
+  - Icons 
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+  - Layout
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+    - Header
+    - Main (aside + main-content)
+    - Footer
+  - Pages
 
-### `npm run eject`
+    - Home (fetch and infiniteScroll logic using Intersection Observer API)
+    - FavoritesPage
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+`App.js`
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+`App.css`
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+<br>
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+In the `public` folder the following things were changed:
 
-## Learn More
+- favicon replaced
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- title and meta description in index.html adjusted
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Styles management
 
-### Code Splitting
+- `App.css` cointans global and utils styles
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- `StyledComponents.js` containes styles of the components
 
-### Analyzing the Bundle Size
+## Margins for improvements (unresolved issues)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### Infinite scroll 'limited'?
+I notice that after some scrolling it seems like there is nothing more to fetch.
 
-### Making a Progressive Web App
+Searching around to understand better this part i found:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+https://www.reddit.com/r/reddit/comments/145bram/addressing_the_community_about_changes_to_our_api/
 
-### Advanced Configuration
+8 monts ago was said:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+_Free Data API<br>Effective July 1, 2023, the rate limits to use the Data API free of charge are:<br>100 queries per minute per OAuth client id if you are using OAuth authentication and 10 queries per minute if you are not using OAuth authentication.<br>Today, over 90% of apps fall into this category and can continue to access the Data API for free_
 
-### Deployment
+If that is so, since i'm filtering fetched data to only display Images (png, jpeg, jpg, webp, svg, gif) and on reddit there are a lots of videos, that explains why i dont get 100, but less images.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+### Search logic
+The request was to 
 
-### `npm run build` fails to minify
+_"Add a search box to load a proper list.
+When the user types something, display the new content as he types."_
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+In this case the user has to finish to write a subbreddit and then press Enter or click on a submit button.
+
+Potentential idea on how to create a search box requested:
+While  user is typing, input should be compared with an array of the list of all subreddits and as soon the word inserted is found in the list of all subreddits, fetching of that subredddit starts, without waiting for an Enter to be pressed...
+
+List of all Subreddits: https://www.reddit.com/r/ListOfSubreddits/wiki/listofsubreddits/#wiki_general_content
+
+### State manager
+The request was:
+
+_Use State manager of your choice (e.g. Redux, Zustand, React-query)_
+
+For now just  React's built-in state management features were used.
+
+## Helpful resourses
+
+InfiniteScroll:
+
+https://blog.logrocket.com/3-ways-implement-infinite-scroll-react/#basic-setup
+
+https://dev.to/imkrunalkanojiya/how-to-create-infinite-scroll-with-fetch-data-from-api-in-reactjs-1l65
+
+https://dev.to/vishnusatheesh/exploring-infinite-scroll-techniques-in-react-1bn0
+
+Fetching Reddit API
+
+https://www.reddit.com/dev/api/
+
+https://www.reddit.com/subreddits/
+
+https://www.reddit.com/r/ListOfSubreddits/wiki/listofsubreddits/#wiki_general_content
+
+https://www.reddit.com/r/redditdev/comments/21v30m/getting_a_list_of_all_subreddits/
+
+https://www.reddit.com/r/learnjavascript/comments/z7uf87/dealing_with_null_results_from_an_api/
+
+Styled Components
+
+https://styled-components.com/docs/basics#motivation
+
+Various
+
+https://magic.reactjs.net/htmltojsx.htm
+https://icomoon.io/app/#/select

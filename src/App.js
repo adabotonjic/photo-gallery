@@ -1,6 +1,8 @@
 
 import React, { useState, useEffect }  from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import PageTop from './Components/PageTop';
+
 
 import Header from './Layout/Header';
 import Main from './Layout/Main';
@@ -11,8 +13,9 @@ import Footer from './Layout/Footer';
 import './App.css'
 
 const App = () => {
+  
   /*const keyword = "catpranks";*/
-  const [keyword, setkeyword] = useState("funny");
+  const [keyword, setkeyword] = useState("all");
   const [inputValue, setInputValue] = useState("");
   const [favorites, setFavorites] = useState([]);
 
@@ -52,10 +55,8 @@ const App = () => {
 
   return (
     <Router>
-      <Header  />   
-
-      
-      
+      <PageTop />
+      <Header />
         <Main 
           keyword={keyword} 
           handleInputChange={handleInputChange} 
