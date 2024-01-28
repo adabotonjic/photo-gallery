@@ -21,7 +21,8 @@ export const Form = styled.form`
         background:white;
         transition: all 0.4s;
         border-radius: 7px;
-        color: var(--color-primary)
+        color: var(--color-primary);
+        -webkit-appearance: none;
         &:hover, &:active{
             background: var(--color-yellow)
         }
