@@ -67,7 +67,7 @@ In the `public` folder the following things were changed:
 
 ## Margins for improvements (unresolved issues)
 
-### Infinite scroll 'limited'?
+### 1. Infinite scroll 'limited'?
 I notice that after some scrolling it seems like there is nothing more to fetch.
 
 Searching around to understand better this part i found:
@@ -80,7 +80,7 @@ _Free Data API<br>Effective July 1, 2023, the rate limits to use the Data API fr
 
 If that is so, since i'm filtering fetched data to only display Images (png, jpeg, jpg, webp, svg, gif) and on reddit there are a lots of videos, that explains why i dont get 100, but less images.
 
-### Search logic
+### 2. Search logic
 The request was to 
 
 _"Add a search box to load a proper list.
@@ -93,12 +93,22 @@ While  user is typing, input should be compared with an array of the list of all
 
 List of all Subreddits: https://www.reddit.com/r/ListOfSubreddits/wiki/listofsubreddits/#wiki_general_content
 
-### State manager
+### 3. State manager
 The request was:
 
 _Use State manager of your choice (e.g. Redux, Zustand, React-query)_
 
 For now just  React's built-in state management features were used.
+
+### 4. Handling responsive images
+
+Could not get a responsive image src from preview -> images -> resolutions -> url to load a better images for a different viewports/breakpoints.
+
+So what I did, i choose to load for small screens a thumbnails (too low quality) and for a big screen a full media (which is too huge for a web).
+
+## Tools for measuring the page quality
+
+https://pagespeed.web.dev/analysis/https-photo-gallery-by-ada-vercel-app/
 
 ## Helpful resourses
 
@@ -130,3 +140,4 @@ Various
 
 https://magic.reactjs.net/htmltojsx.htm
 https://icomoon.io/app/#/select
+https://www.makeuseof.com/react-router-404-page-create/ 

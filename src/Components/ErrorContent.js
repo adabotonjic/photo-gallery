@@ -10,7 +10,7 @@ const ErrorContent = ({message, keyword}) => {
                 <>
                     <p>The keyword <strong>{keyword}</strong> you searched for could not be found or is not existing.</p>
                     <p>
-                        <a href="https://www.reddit.com/subreddits" target="_blank" rel="noreferrer">
+                        <a href="https://www.reddit.com/r/ListOfSubreddits/wiki/listofsubreddits/#wiki_general_content" target="_blank" rel="noreferrer">
                             Here
                         </a> you can find a list of valid keywords.
                     </p>
@@ -20,10 +20,10 @@ const ErrorContent = ({message, keyword}) => {
         case message.includes("403"):
             errorContent = (
                 <>
-                    <p>The keyword <strong>{keyword}</strong> you searched is private.</p>
+                    <p>The keyword <strong>{keyword}</strong> you searched is private or empty.</p>
                     <p>Try with different search.</p> 
                     <p>
-                        <a href="https://www.reddit.com/subreddits" target="_blank" rel="noreferrer">
+                        <a href="https://www.reddit.com/r/ListOfSubreddits/wiki/listofsubreddits/#wiki_general_content" target="_blank" rel="noreferrer">
                             Here
                         </a> you can find a list of valid keywords.
                     </p>
@@ -40,7 +40,7 @@ const ErrorContent = ({message, keyword}) => {
                     <>
                     <p>The keyword <strong>{keyword}</strong> you searched for could not be found or is not existing.</p>
                     <p>
-                        <a href="https://www.reddit.com/subreddits" target="_blank" rel="noreferrer">
+                        <a href="https://www.reddit.com/r/ListOfSubreddits/wiki/listofsubreddits/#wiki_general_content" target="_blank" rel="noreferrer">
                             Here
                         </a> you can find a list of valid keywords.
                     </p>

@@ -9,6 +9,7 @@ import Main from './Layout/Main';
 import Home from './Pages/Home';
 import FavoritesPage from './Pages/FavoritesPage'
 import Footer from './Layout/Footer';
+import NotFound from './Pages/404';
 
 import './App.css'
 
@@ -55,8 +56,8 @@ const App = () => {
 
   return (
     <Router>
-      <PageTop />
-      <Header />
+        <PageTop />
+        <Header />
         <Main 
           keyword={keyword} 
           handleInputChange={handleInputChange} 
@@ -81,7 +82,9 @@ const App = () => {
                 favorites={favorites} 
                 removeFromFavorites={removeFromFavorites}
                  />} 
+                
             />
+             <Route path='*' element={<NotFound />}/>
            
             </Routes>
         </Main>
