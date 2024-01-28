@@ -8,7 +8,7 @@ const PageTop = () => {
     window.scrollTo(0, 0);
   }, [location]);
 
-  return null; // This component does not render anything
+  return null; 
 };
 
 export default PageTop;

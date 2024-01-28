@@ -113,6 +113,9 @@ So what I did, i choose to load for small screens a thumbnails (too low quality)
 
 ### 5. Lack of Unit or Component tests :-(
 
+### 6. Different meta for pages
+
+
 <br><br>
 ## Tools for measuring the page quality
 
@@ -147,7 +150,10 @@ https://styled-components.com/docs/basics#motivation
 
 Various
 
+https://stackoverflow.com/questions/59766986/react-router-dom-link-open-at-the-top-of-page
 https://magic.reactjs.net/htmltojsx.htm
 https://icomoon.io/app/#/select
 https://www.makeuseof.com/react-router-404-page-create/ 
 https://prismic.io/blog/next-gen-image-formats
+https://bobbyhadz.com/blog/react-scroll-to-top
+https://www.codingsparkles.com/how-to-add-a-dynamic-class-name/

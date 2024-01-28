@@ -8,10 +8,8 @@ import AsideFavorites from "../Components/AsideFavorites";
 import usePageClass from "../Hooks/usePageClass";
 
 
-
-
 const Main = ({keyword, inputValue, handleSubmit, handleInputChange, addToFavorites, removeFromFavorites, favorites, clearFavorites}) => {
-    usePageClass()
+    usePageClass();
     const location = useLocation();
 
     const asideContent = () => {
