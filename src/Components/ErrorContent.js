@@ -9,6 +9,7 @@ const ErrorContent = ({message, keyword}) => {
             errorContent = (
                 <>
                     <p>The keyword <strong>{keyword}</strong> you searched has no images.</p>
+                    <p>Try with different search</p>
                     <p>
                         <a href="https://www.reddit.com/r/ListOfSubreddits/wiki/listofsubreddits/#wiki_general_content" target="_blank" rel="noreferrer">
                             Here
@@ -21,6 +22,7 @@ const ErrorContent = ({message, keyword}) => {
             errorContent = (
                 <>
                     <p>The keyword <strong>{keyword}</strong> you searched for could not be found or is not existing.</p>
+                    <p>Try with different search</p>
                     <p>
                         <a href="https://www.reddit.com/r/ListOfSubreddits/wiki/listofsubreddits/#wiki_general_content" target="_blank" rel="noreferrer">
                             Here
@@ -51,6 +53,7 @@ const ErrorContent = ({message, keyword}) => {
                 errorContent = (
                     <>
                     <p>The keyword <strong>{keyword}</strong> you searched for could not be found or is not existing.</p>
+                    <p>Try with different search</p>
                     <p>
                         <a href="https://www.reddit.com/r/ListOfSubreddits/wiki/listofsubreddits/#wiki_general_content" target="_blank" rel="noreferrer">
                             Here

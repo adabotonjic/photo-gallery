@@ -17,9 +17,9 @@ const fetchPhotos = async (keyword, after = ''/*, count = 0*/) => {
     }
 
     const data = await response.json();
-    console.log('API fetch: ', data);
+    /*console.log('API fetch: ', data);
     console.log('Url fetched', url)
-    /*console.log('keyword:', keyword);*/
+    console.log('keyword:', keyword);*/
     return data;
     
   } catch (error) {
@@ -38,7 +38,6 @@ const Home = ({ keyword, addToFavorites, removeFromFavorites, favorites = [] }) 
 
   const fetchMorePhotos = async (currentAfter, currentPhotosLength) => {
     if (isLoading || currentAfter === null ) {
-      setError({ hasError: true, message: '1000' });
       return;
     }
     
@@ -69,6 +68,9 @@ const Home = ({ keyword, addToFavorites, removeFromFavorites, favorites = [] }) 
           );
           
         });
+        if(newPhotos.length === 0){
+          setError({ hasError: true, message: '1000' });
+        }
   
         /*console.log("Number of filtered photos:", newPhotos.length);*/
 
