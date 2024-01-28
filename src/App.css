@@ -101,7 +101,7 @@ h1, .h1{
   line-height: 1.2;
   font-weight: var(--fw-bold);
   margin-bottom:1rem;
-  text-wrap: balance;
+  text-wrap: pretty;
   padding-inline:0.5rem;
 }
 
