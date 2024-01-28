@@ -68,7 +68,7 @@ const Home = ({ keyword, addToFavorites, removeFromFavorites, favorites = [] }) 
           );
           
         });
-        if(newPhotos.length === 0){
+        if(newPhotos.length === 0 && isLoading === false){
           setError({ hasError: true, message: '1000' });
         }
   
