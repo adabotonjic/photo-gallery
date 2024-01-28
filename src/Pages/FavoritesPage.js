@@ -10,7 +10,7 @@ const Favorites = ({ favorites, removeFromFavorites }) => {
       {favorites.length === 0 ? (
         <>
         <p><b>Currently there are no favorite images here.</b></p>
-        <p>Go back to <Link to="/">homepage</Link> to serach for some images.</p>
+        <p>Go back to <Link to="/">homepage</Link> to search for some images.</p>
         </>
       ) : (
        

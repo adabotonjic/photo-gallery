@@ -1,15 +1,12 @@
 
 import React, { useState, useEffect }  from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router} from 'react-router-dom';
 import PageTop from './Components/PageTop';
-
 
 import Header from './Layout/Header';
 import Main from './Layout/Main';
-import Home from './Pages/Home';
-import FavoritesPage from './Pages/FavoritesPage'
 import Footer from './Layout/Footer';
-import NotFound from './Pages/404';
+
 
 import './App.css'
 
@@ -20,7 +17,7 @@ const App = () => {
   const [inputValue, setInputValue] = useState("");
   const [favorites, setFavorites] = useState([]);
 
-
+  /* Favortits */
   const addToFavorites = (photo) => {
     setFavorites(prev => [...prev, photo]);
   };
@@ -32,7 +29,7 @@ const App = () => {
   const clearFavorites = () => {
     setFavorites([]);
   };
-
+  /* Search */
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
   };
@@ -67,26 +64,7 @@ const App = () => {
           removeFromFavorites={removeFromFavorites} 
           favorites={favorites}
           clearFavorites={clearFavorites} >
-            <Routes>
-       
-            <Route exact path="/" element={
-                <Home 
-                  keyword={keyword} 
-                  addToFavorites={addToFavorites} 
-                  removeFromFavorites={removeFromFavorites} 
-                  favorites={favorites} 
-                  />} 
-            />
-            <Route path="/favorites" element={
-                <FavoritesPage 
-                favorites={favorites} 
-                removeFromFavorites={removeFromFavorites}
-                 />} 
-                
-            />
-             <Route path='*' element={<NotFound />}/>
-           
-            </Routes>
+
         </Main>
         
           <Footer/>      

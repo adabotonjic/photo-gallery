@@ -1,17 +1,17 @@
 import React from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, Routes, Route } from "react-router-dom";
+import Home from "../Pages/Home";
+import FavoritesPage from "../Pages/FavoritesPage";
+import NotFound from "../Pages/404";
 import AsideHome from "../Components/AsideHome";
 import AsideFavorites from "../Components/AsideFavorites";
-import Home from "../Pages/Home";
-import FavoritesPage from "../Pages/Home";
-import NotFound from "../Pages/404";
 import usePageClass from "../Hooks/usePageClass";
 
 
 
 
 const Main = ({keyword, inputValue, handleSubmit, handleInputChange, addToFavorites, removeFromFavorites, favorites, clearFavorites}) => {
-    usePageClass();
+    usePageClass()
     const location = useLocation();
 
     const asideContent = () => {
@@ -34,52 +34,42 @@ const Main = ({keyword, inputValue, handleSubmit, handleInputChange, addToFavori
                     />
                 );
             default:
-                return (
-                    <AsideFavorites 
-                        favorites={favorites} 
-                        clearFavorites={clearFavorites} 
-                    />
-                );
+                return null;
         }
     };
-
     const mainContent = () => {
-        switch (location.pathname) {
-            case '/':
-                return (
-                    <Home 
+        return (
+            <Routes>
+                <Route exact path="/" element={
+                <Home 
                     keyword={keyword} 
                     addToFavorites={addToFavorites} 
                     removeFromFavorites={removeFromFavorites} 
-                    favorites={favorites}
+                    favorites={favorites} 
+                />} 
                 />
-                );
-            case '/favorites':
-                return (
-                    <FavoritesPage 
+                <Route path="/favorites" element={
+                <FavoritesPage 
                     favorites={favorites} 
                     removeFromFavorites={removeFromFavorites}
+                />} 
                 />
-                );
-    
-            default:
-                return (<NotFound />)
-        }
-    }
-    
+                <Route path="*" element={<NotFound />} />
+          </Routes>
+        )
+    };
 
     return (
         <>
         <main className="page-content mb-4">
             <div className='container'>
                 <div className="flexContainer mt-3">
-                <aside className="sidebar">
-                    {asideContent()}
-                 
+                    <aside className="sidebar">
+                        {asideContent()}
                     </aside>
-                    
+                        
                     <div className="main-content ">
-                    {mainContent()}
+                        {mainContent()}
                     </div>
                 </div>
             </div>

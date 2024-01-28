@@ -5,10 +5,11 @@ import {Spinner} from '../Components/StyledComponents';
 import {MainContainer} from '../Components/StyledComponents';
 
 
-const fetchPhotos = async (keyword, after = '', count = 0) => {
+const fetchPhotos = async (keyword, after = ''/*, count = 0*/) => {
 
   try {
-    const url = `https://www.reddit.com/r/${keyword}/top.json?limit=20&after=${after}&count=${count}`;
+    /*const url = `https://www.reddit.com/r/${keyword}/top.json?limit=20&after=${after}&count=${count}`;*/
+    const url = `https://www.reddit.com/r/${keyword}/top.json?limit=20&after=${after}`;
     const response = await fetch(url);
 
     if (!response.ok) {
@@ -16,8 +17,9 @@ const fetchPhotos = async (keyword, after = '', count = 0) => {
     }
 
     const data = await response.json();
-    console.log(url);
-    console.log('keyword:', keyword);
+    /*console.log('API fetch: ', data);
+    console.log('Url fetched', url)
+    console.log('keyword:', keyword);*/
     return data;
     
   } catch (error) {
@@ -27,41 +29,26 @@ const fetchPhotos = async (keyword, after = '', count = 0) => {
 
 };
 
-const Home = ({ keyword, addToFavorites, removeFromFavorites, favorites = [] , pageRef}) => {
+const Home = ({ keyword, addToFavorites, removeFromFavorites, favorites = [] }) => {
   const [photos, setPhotos] = useState([]);
   const [after, setAfter] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [isPrivate, setIsPrivate] = useState(false);
-  const [wrongKeyword, setWrongKeyword] = useState(false);
   const [error, setError] = useState({ hasError: false, message: '' });
   const loader = useRef(null);
 
   const fetchMorePhotos = async (currentAfter, currentPhotosLength) => {
-    if (isLoading || currentAfter === null || isPrivate || wrongKeyword) return;
+    if (isLoading || currentAfter === null ) return;
     
     setIsLoading(true);
-    console.log("Fetching photos with 'after':", currentAfter, "and count:", currentPhotosLength);
+    /*console.log("Fetching photos with 'after':", currentAfter, "and count:", currentPhotosLength);*/
   
     try {
       const data = await fetchPhotos(keyword, currentAfter, currentPhotosLength);
   
-      if (data.error && data.error === 403) {
-        console.log("This content is private or restricted.");
-        setIsPrivate(true);
-        return;
-      }
-  
       if (data.error) {
         throw new Error(data.message);
       }
-  
-      if (data.data.dist === 0) {
-        console.log("No data found for this keyword.");
-        setWrongKeyword(true);
-        return;
-      }
-  
-      if (data && data.data && data.data.children) {
+      else if (data && data.data && data.data.children) {
         const newPhotos = data.data.children.filter(item => {
           const url = item.data.url.toLowerCase();
           return (
@@ -70,17 +57,24 @@ const Home = ({ keyword, addToFavorites, removeFromFavorites, favorites = [] , p
             url.endsWith('.png') ||
             url.endsWith('.gif') ||
             url.endsWith('.webp') ||
+            url.endsWith('.avif') ||
+            url.endsWith('.jp2') ||
+            url.endsWith('.jpx') ||
+            url.endsWith('.jpm') ||
             url.endsWith('.svg')
           );
         });
   
-        console.log("Number of filtered photos:", newPhotos.length);
+        /*console.log("Number of filtered photos:", newPhotos.length);*/
+
         setPhotos(prev => {
-          // Check if new photos are already included in the current photos
+          // Check if new photos are already included in the current photos (problem images were repeating)
           const photoUrls = new Set(prev.map(item => item.data.url));
+
           return [...prev, ...newPhotos.filter(item => !photoUrls.has(item.data.url))];
         });
         setAfter(data.data.after);
+
       } else {
         console.log("No new photos or same 'after' value.");
       }
@@ -96,8 +90,6 @@ const Home = ({ keyword, addToFavorites, removeFromFavorites, favorites = [] , p
   useEffect(() => {
     setPhotos([]);
     setAfter('');
-    setIsPrivate(false);
-    setWrongKeyword(false);
     setError({ hasError: false, message: '' });
     setIsLoading(true); // Start loading initially
 
@@ -105,11 +97,11 @@ const Home = ({ keyword, addToFavorites, removeFromFavorites, favorites = [] , p
   }, [keyword]); 
 
   useEffect(() => {
-    //console.log("useEffect triggered");
+ 
     const currentLoader = loader.current;
 
     const observer = new IntersectionObserver(entries => {
-      //console.log("Observer triggered", entries);
+      
       if (entries[0].isIntersecting) {
         fetchMorePhotos(after, photos.length);
       }
@@ -124,7 +116,7 @@ const Home = ({ keyword, addToFavorites, removeFromFavorites, favorites = [] , p
         observer.unobserve(currentLoader);
       }
     };
-  }, [isLoading, after, fetchMorePhotos]);
+  }, [isLoading]);
 
   return (
     <>

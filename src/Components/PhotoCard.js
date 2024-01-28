@@ -25,8 +25,8 @@ function formatDate(timestamp) {
 const PhotoCard = ({ photo, addToFavorites, removeFromFavorites, isFavorite, pageRef }) => {
 
   const photoItemClass = isFavorite && pageRef === 'home' ? "photo-favorite" : "photo";
-  console.log("PhotoCard photo:", photo);
-  console.log({ addToFavorites, removeFromFavorites });
+  /*console.log("PhotoCard photo:", photo);*/
+
   return (
    <>
       

@@ -163,7 +163,10 @@ export const MobFavLink = styled(Link)`
         transform:translate(-50%, -50%);
     }
     @media screen and (min-width:1024px){
-        display:none;
+        
+        &.scrolled {
+            display:none;
+        }
     }
 `;
 

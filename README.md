@@ -1,6 +1,6 @@
 # Photo Gallery App
 
-This project was create in React
+This project was created in React
 
 ```
 npx create-react-app photo-gallery
@@ -20,10 +20,16 @@ https://photo-gallery-by-ada.vercel.app/
 ### - Selecting/deselecting images as favorites
 ### - Favorites page to see o remove favorites images
 
+<br><br>
 ## Structure of the project
 `public`
 
 `src`
+
+  - App.js
+
+  - App.css
+
   - Components
 
     - AsideFavorites.js
@@ -47,9 +53,7 @@ https://photo-gallery-by-ada.vercel.app/
     - Home (fetch and infiniteScroll logic using Intersection Observer API)
     - FavoritesPage
 
-`App.js`
 
-`App.css`
 
 <br>
 
@@ -59,12 +63,13 @@ In the `public` folder the following things were changed:
 
 - title and meta description in index.html adjusted
 
+<br><br>
 ## Styles management
 
 - `App.css` cointans global and utils styles
 
 - `StyledComponents.js` containes styles of the components
-
+<br><br>
 ## Margins for improvements (unresolved issues)
 
 ### 1. Infinite scroll 'limited'?
@@ -106,10 +111,14 @@ Could not get a responsive image src from preview -> images -> resolutions -> ur
 
 So what I did, i choose to load for small screens a thumbnails (too low quality) and for a big screen a full media (which is too huge for a web).
 
+### 5. Lack of Unit or Component tests :-(
+
+<br><br>
 ## Tools for measuring the page quality
 
 https://pagespeed.web.dev/analysis/https-photo-gallery-by-ada-vercel-app/
 
+<br><br>
 ## Helpful resourses
 
 InfiniteScroll:
@@ -141,3 +150,4 @@ Various
 https://magic.reactjs.net/htmltojsx.htm
 https://icomoon.io/app/#/select
 https://www.makeuseof.com/react-router-404-page-create/ 
+https://prismic.io/blog/next-gen-image-formats
