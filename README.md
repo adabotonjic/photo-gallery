@@ -177,3 +177,5 @@ https://www.makeuseof.com/react-router-404-page-create/
 https://prismic.io/blog/next-gen-image-formats
 
 https://bobbyhadz.com/blog/react-scroll-to-top
+
+https://blog.logrocket.com/using-localstorage-react-hooks/
