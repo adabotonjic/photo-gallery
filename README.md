@@ -78,7 +78,7 @@ In the `public` folder the following things were changed:
 
 - `StyledComponents.js` containes styles of the components
 <br><br>
-## Romm for improvements (unresolved issues)
+## Room for improvements (unresolved issues)
 
 ### 1. Infinite scroll 'limited'?
 I notice that after some scrolling it seems like there is nothing more to fetch.
