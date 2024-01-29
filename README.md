@@ -55,7 +55,7 @@ https://photo-gallery-by-ada.vercel.app/
     - Header
     - Main (aside + main-content)
     - Footer
-    
+
   - Pages
 
     - Home (fetch and infiniteScroll logic using Intersection Observer API)
@@ -78,7 +78,7 @@ In the `public` folder the following things were changed:
 
 - `StyledComponents.js` containes styles of the components
 <br><br>
-## Margins for improvements (unresolved issues)
+## Room for improvements (unresolved issues)
 
 ### 1. Infinite scroll 'limited'?
 I notice that after some scrolling it seems like there is nothing more to fetch.
@@ -152,16 +152,26 @@ https://www.reddit.com/r/redditdev/comments/21v30m/getting_a_list_of_all_subredd
 
 https://www.reddit.com/r/learnjavascript/comments/z7uf87/dealing_with_null_results_from_an_api/
 
+https://stackoverflow.com/questions/31942743/how-to-get-json-data-from-reddit-after-the-first-page
+
 Styled Components
 
 https://styled-components.com/docs/basics#motivation
 
 Various
 
-https://stackoverflow.com/questions/59766986/react-router-dom-link-open-at-the-top-of-page
-https://magic.reactjs.net/htmltojsx.htm
-https://icomoon.io/app/#/select
-https://www.makeuseof.com/react-router-404-page-create/ 
-https://prismic.io/blog/next-gen-image-formats
-https://bobbyhadz.com/blog/react-scroll-to-top
+https://www.positronx.io/react-add-dynamic-class-name-to-body-when-navigating-tutorial/
+
 https://www.codingsparkles.com/how-to-add-a-dynamic-class-name/
+
+https://stackoverflow.com/questions/59766986/react-router-dom-link-open-at-the-top-of-page
+
+https://magic.reactjs.net/htmltojsx.htm
+
+https://icomoon.io/app/#/select
+
+https://www.makeuseof.com/react-router-404-page-create/ 
+
+https://prismic.io/blog/next-gen-image-formats
+
+https://bobbyhadz.com/blog/react-scroll-to-top
