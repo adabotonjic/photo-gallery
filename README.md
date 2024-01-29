@@ -160,6 +160,8 @@ https://styled-components.com/docs/basics#motivation
 
 Various
 
+https://www.w3schools.com/cssref/css3_pr_text-overflow.php
+
 https://www.positronx.io/react-add-dynamic-class-name-to-body-when-navigating-tutorial/
 
 https://www.codingsparkles.com/how-to-add-a-dynamic-class-name/
